@@ -116,8 +116,10 @@ redtape/
 
 ## Author
 
-**Deekshith Gowda**
-
-GitHub: https://github.com/deekshith-8
-
 ---
+
+<div align="center">
+
+Built by **Deekshith Gowda** · [GitHub](https://github.com/deekshith-8)
+
+</div>
