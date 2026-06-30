@@ -36,7 +36,7 @@ export function HeroSection() {
             <div className="col-span-4 flex flex-col justify-between px-6 py-16 md:px-10 md:py-24 animate-reveal [animation-delay:200ms]">
 
               {/* Geometric composition — Bauhaus-style abstract */}
-              <div className="relative mb-10 h-40 w-full swiss-dots overflow-hidden border-2 border-black animate-float" aria-hidden="true">
+                <div className="relative mb-10 h-40 w-full swiss-dots overflow-hidden border-2 border-black" aria-hidden="true">
                 <div className="absolute top-4 left-4 h-20 w-20 border-4 border-black" />
                 <div className="absolute bottom-4 right-4 h-16 w-16 bg-[#FF3000]" />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-px w-full bg-black" />
