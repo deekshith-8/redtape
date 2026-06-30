@@ -23,6 +23,10 @@ export default function SignupPage() {
       setError("ID / Username cannot be empty.")
       return
     }
+    if (userId.includes("@")) {
+      setError("Username cannot contain '@'. Use a plain username, not an email.")
+      return
+    }
     if (password.length < 6) {
       setError("Password must be at least 6 characters.")
       return
