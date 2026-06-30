@@ -119,5 +119,5 @@ redtape/
 ---
 
 <div align="center">
-Built by **Deekshith Gowda** · [GitHub](https://github.com/deekshith-8)
+Built by Deekshith Gowda 
 </div>
