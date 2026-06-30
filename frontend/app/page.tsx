@@ -18,6 +18,7 @@ export default function LoginPage() {
   useEffect(() => {
     const savedRole = localStorage.getItem("redtape_role")
     const savedName = localStorage.getItem("redtape_username")
+
     if (savedRole && savedName) {
       if (savedRole === "user") {
         router.push("/home")
@@ -50,11 +51,8 @@ export default function LoginPage() {
 
       if (role === "user") {
         router.push("/home")
-        // Small delay followed by force reload to let navbar update
-        setTimeout(() => window.location.reload(), 150)
       } else {
         router.push("/lawyers/dashboard")
-        setTimeout(() => window.location.reload(), 150)
       }
     }, 800)
   }
@@ -66,9 +64,8 @@ export default function LoginPage() {
         <div className="absolute top-6 left-12 text-[10px] font-mono opacity-25 hidden md:block">
           RT_SECURE_AUTH_v1.0.2 // SECURE_SHELL
         </div>
-        
+
         <div className="w-full max-w-md bg-white border-2 border-black animate-reveal relative z-10">
-          
           {/* Header block with diagonal background */}
           <div className="border-b-2 border-black p-6 swiss-diagonal flex justify-between items-center">
             <div>
@@ -83,7 +80,6 @@ export default function LoginPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-6">
-            
             {/* Role selection tabs */}
             <div className="space-y-2">
               <label className="swiss-label text-black/60">Choose Profile</label>
@@ -186,10 +182,10 @@ export default function LoginPage() {
                 </span>
               )}
             </button>
-
           </form>
         </div>
       </main>
+
       <Footer />
     </div>
   )
