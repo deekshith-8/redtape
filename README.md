@@ -1,11 +1,10 @@
 <div align="center">
 
 # RedTape
-
 ### AI-Powered Legal Assistant for Smarter Document Analysis
 
 <p>
-Analyze contracts, generate legal notices, chat with documents, and connect with lawyers — all in one platform.
+Analyze contracts, generate legal notices, chat with documents, and connect with lawyers, all in one platform.
 </p>
 
 ![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square)
@@ -13,12 +12,15 @@ Analyze contracts, generate legal notices, chat with documents, and connect with
 ![Python](https://img.shields.io/badge/Python-AI-blue?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
 
+<br />
+
+<a href="https://redtape-blue.vercel.app/home"><strong>→ Live Demo</strong></a>
+
 </div>
 
 ---
 
 ## Overview
-
 RedTape simplifies legal processes using AI.
 
 Users can upload contracts, ask questions about legal documents, identify risky clauses, generate legal notices, and find suitable lawyers through an intelligent recommendation system.
@@ -89,7 +91,6 @@ The goal is to make legal services more accessible, understandable, and affordab
 ---
 
 ## Project Structure
-
 ```bash
 redtape/
 ├── frontend/
@@ -105,7 +106,6 @@ redtape/
 ---
 
 ## Future Enhancements
-
 - RAG-based legal knowledge system
 - Multilingual legal assistance
 - Court case prediction
@@ -119,7 +119,5 @@ redtape/
 ---
 
 <div align="center">
-
 Built by **Deekshith Gowda** · [GitHub](https://github.com/deekshith-8)
-
 </div>
