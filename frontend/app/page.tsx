@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Footer } from "@/components/footer"
+import { supabase } from "@/lib/supabase"
 
 type Role = "user" | "lawyer"
 
@@ -16,19 +17,26 @@ export default function LoginPage() {
 
   // Redirect instantly if already logged in
   useEffect(() => {
-    const savedRole = localStorage.getItem("redtape_role")
-    const savedName = localStorage.getItem("redtape_username")
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession()
+      if (data.session) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", data.session.user.id)
+          .single()
 
-    if (savedRole && savedName) {
-      if (savedRole === "user") {
-        router.push("/home")
-      } else if (savedRole === "lawyer") {
-        router.push("/lawyers/dashboard")
+        if (profile?.role === "lawyer") {
+          router.push("/lawyers/dashboard")
+        } else {
+          router.push("/home")
+        }
       }
     }
+    checkSession()
   }, [router])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
 
@@ -43,30 +51,48 @@ export default function LoginPage() {
 
     setLoading(true)
 
-    // Simulate short network delay for premium feel
-    setTimeout(() => {
-      // Store in localStorage for auth state
-      localStorage.setItem("redtape_role", role)
-      localStorage.setItem("redtape_username", userId.trim())
+    // Using username as email format: username@redtape.local
+    // since Supabase Auth requires an email
+    const email = `${userId.trim()}@redtape.local`
 
-      if (role === "user") {
-        router.push("/home")
-      } else {
-        router.push("/lawyers/dashboard")
-      }
-    }, 800)
+    const { data, error: signInError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+
+    if (signInError) {
+      setError("Invalid username or password.")
+      setLoading(false)
+      return
+    }
+
+    const { data: profile, error: profileError } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", data.user.id)
+      .single()
+
+    if (profileError || !profile) {
+      setError("Could not find profile. Try signing up again.")
+      setLoading(false)
+      return
+    }
+
+    if (profile.role === "lawyer") {
+      router.push("/lawyers/dashboard")
+    } else {
+      router.push("/home")
+    }
   }
 
   return (
     <div className="flex min-h-screen flex-col bg-white">
       <main className="flex-1 flex flex-col justify-center items-center py-16 px-6 relative swiss-grid-pattern">
-        {/* Subtle decorative dot/lines representing Swiss structural elements */}
         <div className="absolute top-6 left-12 text-[10px] font-mono opacity-25 hidden md:block">
           RT_SECURE_AUTH_v1.0.2 // SECURE_SHELL
         </div>
 
         <div className="w-full max-w-md bg-white border-2 border-black animate-reveal relative z-10">
-          {/* Header block with diagonal background */}
           <div className="border-b-2 border-black p-6 swiss-diagonal flex justify-between items-center">
             <div>
               <span className="swiss-section-number">SECURE PORTAL</span>
@@ -80,7 +106,6 @@ export default function LoginPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-6">
-            {/* Role selection tabs */}
             <div className="space-y-2">
               <label className="swiss-label text-black/60">Choose Profile</label>
               <div className="grid grid-cols-2 border-2 border-black">
@@ -115,7 +140,6 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Input fields */}
             <div className="space-y-4">
               <div>
                 <label htmlFor="userId" className="swiss-label text-black/60 block mb-1">
@@ -152,14 +176,12 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Error messaging */}
             {error && (
               <div className="border-2 border-[#FF3000] p-3 text-xs font-bold text-[#FF3000] uppercase bg-[#FF3000]/5 tracking-wider animate-in fade-in duration-150">
                 ⚠️ Error: {error}
               </div>
             )}
 
-            {/* Action button */}
             <button
               type="submit"
               disabled={loading}
@@ -182,6 +204,10 @@ export default function LoginPage() {
                 </span>
               )}
             </button>
+
+            <p className="text-center text-xs text-black/50">
+              No account? <a href="/signup" className="font-bold underline">Sign up here</a>
+            </p>
           </form>
         </div>
       </main>
